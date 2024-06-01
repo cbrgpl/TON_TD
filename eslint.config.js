@@ -86,7 +86,14 @@ const eslint = {
     'import/extensions': ['.js', '.jsx'],
     'import/resolver': {
       alias: {
-        map: [['@', './src']],
+        map: [
+          ['@', './src'],
+          ['@components', './src/components'],
+          ['@assets', './src/assets'],
+          ['@libs', './src/libs'],
+          ['@utils', './src/utils'],
+          ['@constant', './src/constant'],
+        ],
       },
     },
   },

@@ -1,9 +1,34 @@
 {
-  "compilerOptions": {
-    "module": "nodenext",
+  "compilerOptions": {  
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
     "esModuleInterop": true,
     "lib": [
-      "ESNext"
-    ]
-  }
+      "esnext",
+      "DOM"
+    ],
+    "skipLibCheck": true,
+    "noEmit": true,
+    "paths": {
+      "@components/*": [ "./src/components/*" ],
+      "@assets/*": [ "./src/assets/*" ],
+      "@libs/*": [ "./src/libs/*" ],
+      "@utils/*": [ "./src/utils/*" ],
+      "@constant/*": [ "./src/constant/*" ],
+      "@/*": [ "./src/*" ]
+    }
+  },
+  "include": [ 
+    "src/**/*.ts", 
+    "src/**/*.d.ts", 
+    "src/**/*.tsx", 
+    "src/**/*.vue", 
+    "src/**/*.js"
+  ],
+  "references": [
+    { "path": "./tsconfig.node.json" }
+  ]
 }
