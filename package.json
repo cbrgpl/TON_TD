@@ -1,0 +1,20 @@
+{
+  "name": "ton-spammer",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "start:node": "node --loader ts-node/esm src/index.ts"
+  },
+  "author": "cbrgpl",
+  "license": "ISC",
+  "dependencies": {
+    "@orbs-network/ton-access": "^2.3.3",
+    "@ton/crypto": "^3.2.0",
+    "@ton/ton": "^13.11.1",
+    "@tonconnect/sdk": "^3.0.2"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
