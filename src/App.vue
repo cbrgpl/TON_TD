@@ -1,32 +1,56 @@
-<script lang="ts" >
-import ZBtn from '@components/ZBtn.vue'
+<script lang="ts">
+import ZBtn from '@components/ZBtn.vue';
 
 export default {
   components: {
-    ZBtn
-  }
-}
+    ZBtn,
+  },
+};
 </script>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div>
     <ZBtn>asda</ZBtn>
-    <a href="https://www.electronjs.org/" target="_blank">
-      <img src="@assets/electron.svg" class="logo electron" alt="Electron logo" />
+    <a
+      href="https://www.electronjs.org/"
+      target="_blank"
+    >
+      <img
+        src="@assets/electron.svg"
+        class="logo electron"
+        alt="Electron logo"
+      />
     </a>
-    <a href="https://vitejs.dev/" target="_blank">
-      <img src="@assets/vite.svg" class="logo" alt="Vite logo" />
+    <a
+      href="https://vitejs.dev/"
+      target="_blank"
+    >
+      <img
+        src="@assets/vite.svg"
+        class="logo"
+        alt="Vite logo"
+      />
     </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="@assets/vue.svg" class="logo vue" alt="Vue logo" />
+    <a
+      href="https://vuejs.org/"
+      target="_blank"
+    >
+      <img
+        src="@assets/vue.svg"
+        class="logo vue"
+        alt="Vue logo"
+      />
     </a>
   </div>
   <div class="flex-center">
     Place static files into the <code>/public</code> folder
-    <img style="width: 2.4em; margin-left: .4em;" src="/logo.svg" alt="Logo">
+    <img
+      style="width: 2.4em; margin-left: 0.4em"
+      src="/logo.svg"
+      alt="Logo"
+    />
   </div>
 </template>
 
@@ -45,7 +69,7 @@ export default {
 }
 
 .logo.electron:hover {
-  filter: drop-shadow(0 0 2em #9FEAF9);
+  filter: drop-shadow(0 0 2em #9feaf9);
 }
 
 .logo:hover {

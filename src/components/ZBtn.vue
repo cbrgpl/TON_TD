@@ -1,13 +1,7 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <button style="color:red;">
-  helo
-  </button>
+  <button style="color: red">helo</button>
 </template>
 
-<style scoped >
-
-</style>
+<style scoped></style>

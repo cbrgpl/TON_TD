@@ -3,8 +3,9 @@
     "composite": true,
     "module": "esnext",
     "moduleResolution": "Node",
+    "types": [ "node" ],
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["vite.config.ts", "package.json", "electron"]
+  "include": [ "vite.config.ts", "package.json", "eslint.config.js", "./electron", "commitlint.config.js"]
 }
