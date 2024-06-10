@@ -54,8 +54,7 @@ export const jsRules = {
   'func-style': 'error',
   'no-console': ['error', { allow: ['warn', 'trace', 'group', 'groupCollapsed', 'groupEnd'] }],
   'eol-last': ['error', 'always'],
-  'promise/catch-or-return': 'off',
-  'promise/always-return': 'off',
+  'no-dupe-class-members': 'off',
 };
 export const vueRules = modifyRulesWithPrefix('vue', {
   'html-indent': [
@@ -96,7 +95,7 @@ export const vueRules = modifyRulesWithPrefix('vue', {
 
 export const importRules = modifyRulesWithPrefix('import-x', {
   'export': 'error',
-  'first': 'error',
+  'first': 'off',
   'extensions': 'off',
   'no-self-import': 'error',
   'no-unresolved': 'error',

@@ -1,82 +1,91 @@
 <script lang="ts">
-import ZBtn from '@components/ZBtn.vue';
+import ZFeedBackPanel, {
+  useLogStore,
+  type ULogTypes,
+  useTransfersStatisticsStore,
+} from '@components/singletones/ZFeedBackPanel';
+import ZProgressBar from '@components/ux/ZProgressBar.vue';
+
+import ZToasts from '@components/singletones/ZToasts';
+
+import ZButton from '@components/buttons/ZButton.vue';
 
 export default {
+  name: 'TheApp',
   components: {
-    ZBtn,
+    ZFeedBackPanel,
+    ZProgressBar,
   },
 };
 </script>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue';
+import { LoremIpsum } from 'lorem-ipsum';
+
+const lorem = new LoremIpsum({});
+const logStore = useLogStore();
+const transfersStatisticsStore = useTransfersStatisticsStore();
+
+const buttonLoading = ref(false);
+const addToast = async () => {
+  const seed = Math.floor(Math.random() * 100);
+  const wordsQnt = 20 + seed;
+
+  const toastTypesDict: Record<number, ULogTypes> = {
+    0: 'error',
+    1: 'message',
+    2: 'warn',
+  };
+  const type = toastTypesDict[seed % 3];
+  const fixed = Math.floor(Math.random() * 100) % 10 >= 9.5;
+
+  transfersStatisticsStore.updateStatistics({
+    failed: seed % 2,
+    successful: seed % 9,
+  });
+
+  logStore.log({
+    content: lorem.generateWords(wordsQnt),
+    type,
+    fixed,
+  });
+};
+</script>
 
 <template>
-  <div>
-    <ZBtn>asda</ZBtn>
-    <a
-      href="https://www.electronjs.org/"
-      target="_blank"
-    >
-      <img
-        src="@assets/electron.svg"
-        class="logo electron"
-        alt="Electron logo"
-      />
-    </a>
-    <a
-      href="https://vitejs.dev/"
-      target="_blank"
-    >
-      <img
-        src="@assets/vite.svg"
-        class="logo"
-        alt="Vite logo"
-      />
-    </a>
-    <a
-      href="https://vuejs.org/"
-      target="_blank"
-    >
-      <img
-        src="@assets/vue.svg"
-        class="logo vue"
-        alt="Vue logo"
-      />
-    </a>
-  </div>
-  <div class="flex-center">
-    Place static files into the <code>/public</code> folder
-    <img
-      style="width: 2.4em; margin-left: 0.4em"
-      src="/logo.svg"
-      alt="Logo"
-    />
+  <div class="app">
+    <ZToasts />
+    <div class="app__inner">
+      <div class="app__content">
+        <ZButton
+          :loading="buttonLoading"
+          icon="warn"
+          tip="Добавить тоаст"
+          @click="addToast"
+        >
+          dasdas
+        </ZButton>
+      </div>
+      <ZFeedBackPanel class="app__feed-back-panel" />
+    </div>
   </div>
 </template>
 
 <style>
-.flex-center {
+.app__inner {
   display: flex;
-  align-items: center;
-  justify-content: center;
+
+  width: 100vw;
+  height: 100vh;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.app__content {
+  flex-grow: 1;
 }
 
-.logo.electron:hover {
-  filter: drop-shadow(0 0 2em #9feaf9);
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.app__feed-back-panel {
+  flex-shrink: 0;
+  width: 40rem;
 }
 </style>

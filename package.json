@@ -12,7 +12,8 @@
     }
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --config ./vite.config.web.ts",
+    "dev:electron": "vite",
     "build": "vue-tsc --noEmit && vite build && electron-builder",
     "preview": "vite preview",
     "lint:js": "eslint .",
@@ -30,6 +31,7 @@
     "@ton/crypto": "^3.2.0",
     "@ton/ton": "^13.11.1",
     "@tonconnect/sdk": "^3.0.2",
+    "pinia": "^2.1.7",
     "vue": "^3.4.27"
   },
   "devDependencies": {
@@ -41,10 +43,13 @@
     "@typescript-eslint/eslint-plugin": "^7.12.0",
     "@typescript-eslint/parser": "^7.12.0",
     "@vitejs/plugin-vue": "^5.0.5",
+    "@vue/devtools": "^6.6.3",
     "@vue/eslint-config-typescript": "^13.0.0",
     "babel-preset-vue": "^2.0.2",
     "electron": "^30.0.9",
     "electron-builder": "^24.13.3",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-reload": "^2.0.0-alpha.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
@@ -54,6 +59,7 @@
     "eslint-plugin-vue": "^9.26.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.5",
+    "lorem-ipsum": "^2.0.8",
     "postcss-html": "^1.7.0",
     "prettier": "^3.2.5",
     "stylelint": "^16.6.1",
