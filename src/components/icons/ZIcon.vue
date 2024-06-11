@@ -4,6 +4,9 @@ import ZMessage from './partials/ZMessage.vue';
 import ZWarn from './partials/ZWarn.vue';
 import ZDownload from './partials/ZDownload.vue';
 import ZUpload from './partials/ZUpload.vue';
+import ZBranchesOutline from './partials/ZBranchesOutline.vue';
+import ZDatabase from './partials/ZDatabase.vue';
+import ZNetwork from './partials/ZNetwork.vue';
 
 export default {
   name: 'ZIcon',
@@ -13,6 +16,9 @@ export default {
     ZWarn,
     ZDownload,
     ZUpload,
+    ZBranchesOutline,
+    ZDatabase,
+    ZNetwork,
   },
 };
 </script>

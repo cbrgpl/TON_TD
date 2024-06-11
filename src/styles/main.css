@@ -82,6 +82,13 @@ ul {
   list-style: none;
 }
 
+:where(textarea),
+:where(input[type='text'], input[type='search'], input[type='password'], input[type='url']) {
+  appearance: none;
+  border-style: solid;
+  outline: none;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     --primary-color: #ff4d91;

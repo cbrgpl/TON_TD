@@ -15,10 +15,12 @@ const $props = withDefaults(
     loading?: boolean;
     tip?: string;
     icon?: UIcons | null;
+    variant?: 'default' | 'danger';
   }>(),
   {
     tip: '',
     icon: null,
+    variant: 'default',
   },
 );
 </script>
@@ -26,6 +28,9 @@ const $props = withDefaults(
 <template>
   <button
     class="button"
+    :class="{
+      'button--danger': $props.variant === 'danger',
+    }"
     :data-loading="$props.loading"
     :title="$props.tip"
   >
@@ -60,6 +65,10 @@ const $props = withDefaults(
 
   cursor: pointer;
   padding: 0.2rem;
+}
+
+.button--danger {
+  color: var(--danger-color);
 }
 
 .button:hover {

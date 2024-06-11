@@ -1,1 +1,1 @@
-export type UIcons = 'error' | 'message' | 'warn' | 'download' | 'upload';
+export type UIcons = 'error' | 'message' | 'warn' | 'download' | 'upload' | 'network' | 'database' | 'branchesOutline';
