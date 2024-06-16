@@ -36,12 +36,6 @@ export const jsRules = {
   'import/named': 'off',
   'curly': 2,
   'no-throw-literal': 'off',
-  'camelcase': [
-    'error',
-    {
-      properties: 'always',
-    },
-  ],
   'arrow-spacing': ['error', { before: true, after: true }],
   'comma-dangle': ['error', 'always-multiline'],
   'comma-spacing': ['error', { after: true }],
@@ -154,7 +148,7 @@ const jsConfig = {
 
 const tsConfig = {
   files: ['**/*.ts', '**/*.tsx'],
-  ignores: ['vite.config.ts', 'electron/**/*', 'scripts/**/*'],
+  ignores: ['vite.config.ts', 'electron/**/*', 'scripts/**/*', 'threadEvents.ts'],
   plugins: {
     '@typescript-eslint': ts,
     'import-x': importX,

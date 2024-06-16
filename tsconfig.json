@@ -31,7 +31,8 @@
     "src/**/*.d.ts", 
     "src/**/*.tsx", 
     "src/**/*.vue", 
-    "src/**/*.js"
+    "src/**/*.js",
+    "threadsEvents.ts"
   ],
   "references": [
     { "path": "./tsconfig.node.json" }

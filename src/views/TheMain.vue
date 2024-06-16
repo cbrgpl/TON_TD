@@ -16,7 +16,10 @@ export default {
 <script setup lang="ts">
 import { ref } from 'vue';
 import { LoremIpsum } from 'lorem-ipsum';
+import { EThreadEvents } from '@/../threadEvents';
 import { useLogStore, useTransfersStatisticsStore } from '@components/singletones/ZFeedBackPanel';
+
+import { WalletsScanner, ChunkSizeStatisticsChecker } from '@/core/ton';
 
 const sessionWallet = ref<string | null>(null);
 const transfersComment = ref<string | null>(null);
@@ -26,29 +29,46 @@ const transfersStatisticsStore = useTransfersStatisticsStore();
 
 // const distributionEnabled = ref(false);
 
-const lorem = new LoremIpsum();
-const test = () => {
-  const seed = 15 + Math.floor(Math.random() * 100);
+const walletsScanner = new WalletsScanner(null, logStore);
+const chunkSizeChecker = new ChunkSizeStatisticsChecker(logStore);
+type IChunkWrapper = {
+  hash: number;
+  storeWorkFinished: boolean;
+  distributorWorkFinished: boolean;
+  chunk: Set<string>;
+};
 
-  const logTypesDict = {
-    0: 'error',
-    1: 'warn',
-    2: 'message',
-  };
-  const logType = logTypesDict[seed % 3];
-  const logContent = lorem.generateWords(seed % 30);
+// const lorem = new LoremIpsum();
+const testLoading = ref(false);
+const test = async () => {
+  testLoading.value = true;
 
-  const statisticsContainer = {
-    successful: seed % 10,
-    failed: seed % 2,
-  };
+  const chunk = await walletsScanner.scan();
 
-  logStore.log({
-    content: logContent,
-    type: logType,
-  });
+  if (chunk) {
+    chunkSizeChecker.onChunkFetched(chunk.size);
+    window.ipcRenderer.send(EThreadEvents.CHUNK_READ, chunk);
+  }
 
-  transfersStatisticsStore.updateStatistics(statisticsContainer);
+  testLoading.value = false;
+
+  // const seed = 15 + Math.floor(Math.random() * 100);
+  // const logTypesDict = {
+  //   0: 'error',
+  //   1: 'warn',
+  //   2: 'message',
+  // };
+  // const logType = logTypesDict[seed % 3];
+  // const logContent = lorem.generateWords(seed % 30);
+  // const statisticsContainer = {
+  //   successful: seed % 10,
+  //   failed: seed % 2,
+  // };
+  // logStore.log({
+  //   content: logContent,
+  //   type: logType,
+  // });
+  // transfersStatisticsStore.updateStatistics(statisticsContainer);
 };
 </script>
 
@@ -69,6 +89,7 @@ const test = () => {
       <ZButton
         class="main__action"
         @click="test"
+        :loading="testLoading"
         icon="database"
         tip="Из хранилища"
       />

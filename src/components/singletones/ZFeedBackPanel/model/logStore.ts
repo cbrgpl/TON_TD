@@ -56,3 +56,5 @@ export const useLogStore = defineStore('logStore', {
     },
   },
 });
+
+export type ILogStore = ReturnType<typeof useLogStore>;
