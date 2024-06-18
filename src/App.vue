@@ -1,8 +1,8 @@
 <script lang="ts">
-import ZFeedBackPanel from '@components/singletones/ZFeedBackPanel';
+import ZFeedBackPanel, { useLogStore } from '@components/singletones/ZFeedBackPanel';
 import ZToasts from '@components/singletones/ZToasts';
 
-import TheMain from './views/TheMain.vue';
+import TheMain from './views/TheMain/TheMain.vue';
 
 export default {
   name: 'TheApp',
@@ -14,7 +14,20 @@ export default {
 };
 </script>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { EThreadEvents } from '@/../threadEvents';
+import type { IpcRendererEvent } from 'electron';
+const logStore = useLogStore();
+
+window.ipcRenderer.on(EThreadEvents.MAIN_PROCESS_ERROR, (event: IpcRendererEvent, error: string) => {
+  console.log(error);
+  logStore.log({
+    type: 'error',
+    content: `Произошла внутреняя ошибка в работе программы:
+<strong>${error}</strong>`,
+  });
+});
+</script>
 
 <template>
   <div class="app">

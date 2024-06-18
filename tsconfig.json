@@ -24,14 +24,16 @@
       "@utils/*": [ "./src/utils/*" ],
       "@constant/*": [ "./src/constant/*" ],
       "@/*": [ "./src/*" ]
-    }
+    },
+    "types": [ "electron" ]
   },
   "include": [ 
     "src/**/*.ts", 
     "src/**/*.d.ts", 
     "src/**/*.tsx", 
     "src/**/*.vue", 
-    "src/**/*.js"
+    "src/**/*.js",
+    "threadsEvents.ts"
   ],
   "references": [
     { "path": "./tsconfig.node.json" }

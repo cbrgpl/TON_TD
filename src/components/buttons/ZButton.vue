@@ -14,6 +14,7 @@ const $props = withDefaults(
   defineProps<{
     loading?: boolean;
     tip?: string;
+    disabled?: boolean;
     icon?: UIcons | null;
     variant?: 'default' | 'danger';
   }>(),
@@ -30,8 +31,8 @@ const $props = withDefaults(
     class="button"
     :class="{
       'button--danger': $props.variant === 'danger',
+      'button--disabled': $props.disabled,
     }"
-    :data-loading="$props.loading"
     :title="$props.tip"
   >
     <div
@@ -75,11 +76,6 @@ const $props = withDefaults(
   text-decoration: underline;
 }
 
-.button[data-loading='true'] {
-  cursor: progress;
-  pointer-events: none;
-}
-
 .button__content {
   display: flex;
   align-items: center;
@@ -98,5 +94,12 @@ const $props = withDefaults(
 
 .button__loader {
   font-size: 0.625rem;
+}
+
+.button--disabled {
+  pointer-events: none;
+  cursor: default;
+  color: var(--font-secondary-color);
+  border: var(--font-secondary-color);
 }
 </style>

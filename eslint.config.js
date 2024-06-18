@@ -33,15 +33,10 @@ export const jsRules = {
   'import/no-duplicates': 'off',
   'no-async-promise-executor': 'off',
   'block-spacing': 'error',
+  'no-console': 'off',
   'import/named': 'off',
   'curly': 2,
   'no-throw-literal': 'off',
-  'camelcase': [
-    'error',
-    {
-      properties: 'always',
-    },
-  ],
   'arrow-spacing': ['error', { before: true, after: true }],
   'comma-dangle': ['error', 'always-multiline'],
   'comma-spacing': ['error', { after: true }],
@@ -52,7 +47,7 @@ export const jsRules = {
   'operator-assignment': ['error', 'always'],
   'no-var': 'error',
   'func-style': 'error',
-  'no-console': ['error', { allow: ['warn', 'trace', 'group', 'groupCollapsed', 'groupEnd'] }],
+  // 'no-console': ['error', { allow: ['warn', 'trace', 'group', 'groupCollapsed', 'groupEnd'] }],
   'eol-last': ['error', 'always'],
   'no-dupe-class-members': 'off',
 };
@@ -154,7 +149,7 @@ const jsConfig = {
 
 const tsConfig = {
   files: ['**/*.ts', '**/*.tsx'],
-  ignores: ['vite.config.ts', 'electron/**/*', 'scripts/**/*'],
+  ignores: ['vite.config.ts', 'electron/**/*', 'scripts/**/*', 'threadEvents.ts'],
   plugins: {
     '@typescript-eslint': ts,
     'import-x': importX,

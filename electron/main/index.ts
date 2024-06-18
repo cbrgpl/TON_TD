@@ -4,6 +4,10 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import os from 'node:os'
 
+import { EThreadEvents } from './../../threadEvents'
+
+import {ChunksStore} from './chunksStore'
+
 const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -41,10 +45,11 @@ if (!app.requestSingleInstanceLock()) {
 let win: BrowserWindow | null = null
 const preload = path.join(__dirname, '../preload/index.mjs')
 const indexHtml = path.join(RENDERER_DIST, 'index.html')
-
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
+    width: 1920,
+    height: 1080,
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
     webPreferences: {
       preload,
@@ -55,6 +60,32 @@ async function createWindow() {
       // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
       // contextIsolation: false,
     },
+  })
+
+  const chunkStore = new ChunksStore(
+    ( error: string ) => {
+      setTimeout(() => {
+        win.webContents.send(EThreadEvents.MAIN_PROCESS_ERROR, error)
+      }, 1000);
+    }
+  )
+
+  ipcMain.on(EThreadEvents.SAVE_CHUNK, async (event, chunk: string[] ) => {
+    const errorMessage = await chunkStore.saveChunk(chunk)
+    event.reply(EThreadEvents.CHUNK_SAVED, errorMessage)
+  })
+
+  ipcMain.on(EThreadEvents.READ_CHUNK, async (event) => {
+    console.log('EThreadEvents.READ_CHUNK')
+    const chunk = await chunkStore.readChunk()
+
+    if(chunk === null) {
+      event.reply( EThreadEvents.CHUNK_READ, null)
+    } else {
+      console.log('readed chunk', chunk[0])
+      event.reply( EThreadEvents.CHUNK_READ, chunk)
+    }
+
   })
 
   if (VITE_DEV_SERVER_URL) { // #298

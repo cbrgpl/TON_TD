@@ -76,9 +76,10 @@ const copyLog = async () => {
       </span>
     </h4>
     <div class="feed-back-panel__log-body">
-      <span class="feed-back-panel__log-text-wrapper">
-        {{ $props.content }}
-      </span>
+      <span
+        v-html="$props.content"
+        class="feed-back-panel__log-text-wrapper"
+      />
     </div>
     <ZLoader v-if="copyingInProccess" />
   </div>
@@ -162,5 +163,6 @@ const copyLog = async () => {
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  white-space: break-spaces;
 }
 </style>

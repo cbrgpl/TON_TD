@@ -7,7 +7,7 @@ import { app } from './main';
 
 const connectVueDevTools = () => {
   if (import.meta.env.MODE === 'development') {
-    connect('192.168.0.12', 8098);
+    connect('192.168.0.14', 8098);
   }
 };
 
