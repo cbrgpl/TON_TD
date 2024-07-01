@@ -1,5 +1,5 @@
 {
-  "name": "ton_ts",
+  "name": "ton_td",
   "version": "0.0.1",
   "type": "module",
   "main": "dist-electron/main/index.js",
