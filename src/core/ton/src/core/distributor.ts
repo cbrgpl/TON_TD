@@ -6,7 +6,7 @@ import { mnemonicToWalletKey } from '@ton/crypto';
 import { HighloadWalletContractV2 } from 'ton-highload-wallet-contract';
 
 import { LogStoreAccessor } from '../utils/logStoreAccessor';
-import type { ILogStore } from '@components/singletones/ZFeedBackPanel';
+import type { ILogStore, ITransfersStatisticsStore } from '@components/singletones/ZFeedBackPanel';
 import { sleep } from '@libs/utils/sleep';
 
 const TON_CENTER_TOKEN = '3467c4913be792fb4c721ec896a20238b55ac3da074140d57bc59b5d15fbef96';
@@ -30,6 +30,7 @@ class Distributor extends LogStoreAccessor {
   private _keyPair: Awaited<ReturnType<typeof mnemonicToWalletKey>>;
 
   private _wallet: OpenedContract<HighloadWalletContractV2>;
+  private _transfersStatiscticsStore: ITransfersStatisticsStore;
 
   message: string | null = null;
 
@@ -42,12 +43,14 @@ class Distributor extends LogStoreAccessor {
   constructor(
     mnemonic: string,
     keyPair: Awaited<ReturnType<typeof mnemonicToWalletKey>>,
+    transfersStatiscticsStore: ITransfersStatisticsStore,
     ...args: ConstructorParameters<typeof LogStoreAccessor>
   ) {
     super(...args);
     this._mnemonic = mnemonic;
     this._wallet = client.open(HighloadWalletContractV2.create({ publicKey: keyPair.publicKey, workchain: 0 }));
     this._keyPair = keyPair;
+    this._transfersStatiscticsStore = transfersStatiscticsStore;
     this._updateBalance();
   }
 
@@ -73,7 +76,7 @@ class Distributor extends LogStoreAccessor {
     this._balanceUpdateTimeout = setTimeout(() => this._updateBalance(), time);
   }
 
-  private async _sendZeroTransactions(prefix: string, destinations: string[], message: string) {
+  private async _sendZeroTransactions(destinations: string[], message: string) {
     try {
       const beforeDistribution = Date.now();
 
@@ -98,8 +101,16 @@ class Distributor extends LogStoreAccessor {
         await sleep(TIME_PER_DISTRIBUTION - distributionDuration);
       }
 
+      this._transfersStatiscticsStore.updateStatistics({
+        successful: destinations.length,
+      });
+
       return result;
     } catch (err) {
+      this._transfersStatiscticsStore.updateStatistics({
+        failed: destinations.length,
+      });
+
       if ((err as any).response.status === 500) {
         return 500;
       }
@@ -119,7 +130,6 @@ class Distributor extends LogStoreAccessor {
       return;
     }
 
-    let mark = chunk.chunk[0];
     this._distributionInProcess = true;
 
     if (!this.message) {
@@ -136,7 +146,7 @@ class Distributor extends LogStoreAccessor {
         }
       }
 
-      const result = await this._sendZeroTransactions(mark.slice(0, 5), walletsForIteration, this.message);
+      const result = await this._sendZeroTransactions(walletsForIteration, this.message);
 
       if (result === 500) {
         this._logStore.log({
@@ -192,7 +202,11 @@ class Distributor extends LogStoreAccessor {
   }
 }
 
-export const createDistributor = async (mnemonic: string, logStore: ILogStore) => {
+export const createDistributor = async (
+  mnemonic: string,
+  transfersStatiscticsStore: ITransfersStatisticsStore,
+  logStore: ILogStore,
+) => {
   const keyPair = await mnemonicToWalletKey(mnemonic.split(' '));
-  return new Distributor(mnemonic, keyPair, logStore);
+  return new Distributor(mnemonic, keyPair, transfersStatiscticsStore, logStore);
 };

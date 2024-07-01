@@ -31,3 +31,5 @@ export const useTransfersStatisticsStore = defineStore('transfersStatistics', {
     },
   },
 });
+
+export type ITransfersStatisticsStore = ReturnType<typeof useTransfersStatisticsStore>;

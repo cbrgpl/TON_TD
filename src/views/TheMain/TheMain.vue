@@ -24,10 +24,12 @@ export default {
 <script setup lang="ts">
 import { provide, ref, watch, shallowRef, computed } from 'vue';
 
-import { useLogStore } from '@components/singletones/ZFeedBackPanel';
+import { useLogStore, useTransfersStatisticsStore } from '@components/singletones/ZFeedBackPanel';
 import { WalletsScanner, ChunkSizeStatisticsChecker, createDistributor } from '@/core/ton';
 
 import type { UDistributionMethods } from './types';
+
+const transfersStatisticsStore = useTransfersStatisticsStore();
 
 let distributor = shallowRef<Awaited<ReturnType<typeof createDistributor>> | null>(null);
 const transfersMessage = ref<string>('');
@@ -122,7 +124,7 @@ const submitMnemonic = async () => {
   if (distributor.value) {
     distributor.value.desctruct();
   }
-  distributor.value = await createDistributor(mnemonicTmpValue.value, logStore);
+  distributor.value = await createDistributor(mnemonicTmpValue.value, transfersStatisticsStore, logStore);
 };
 
 const storageMnemonic = localStorage.getItem('mnemonic');
