@@ -15,7 +15,7 @@ on start
 
 ---
 
-![empty balance](./docs/image1.png)  
+![empty balance](./docs/image2.png)  
 empty balance
 
 ## Tech details
