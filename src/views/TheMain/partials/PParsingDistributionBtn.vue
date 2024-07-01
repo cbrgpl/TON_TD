@@ -17,7 +17,7 @@ import { useDistributionBtn, ChunkContainersBuffer } from '../utils/useDistribut
 const $props = defineProps<IDistributionBtnProps>();
 const $emit = defineEmits<IDistributionBtnEmits>();
 
-const MAX_CHUNKS_IN_BUFFER = 4;
+const MAX_CHUNKS_IN_BUFFER = 3;
 
 const chunkContainersBuffer = new ChunkContainersBuffer();
 const { onClick, distributionStatus, logStore, exposes, loadChunksInBuffer } = useDistributionBtn(

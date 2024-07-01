@@ -52,16 +52,7 @@ export const jsRules = {
   'no-dupe-class-members': 'off',
 };
 export const vueRules = modifyRulesWithPrefix('vue', {
-  'html-indent': [
-    'error',
-    2,
-    {
-      attribute: 1,
-      baseIndent: 1,
-      closeBracket: 0,
-      alignAttributesVertically: true,
-    },
-  ],
+  'html-indent': 'off',
   'html-self-closing': 0,
   'no-multiple-template-root': 'off',
   'define-props-declaration': ['error', 'type-based'],
@@ -190,7 +181,7 @@ const tsConfig = {
 };
 
 const tsNodeConfig = {
-  files: ['vite.config.ts', 'eslint.config.js', 'commitlint.config.js', 'electron', 'scripts'],
+  files: ['vite.config.ts', 'eslint.config.js', 'commitlint.config.js', 'electron/*', 'scripts'],
   plugins: {
     '@typescript-eslint': ts,
     'import-x': importX,
@@ -279,7 +270,16 @@ const vueConfig = {
 
 export default [
   {
-    ignores: ['node_modules', '.vscode', 'package-lock.json', 'dist', 'dist-electron', 'release', '.eslintcache'],
+    ignores: [
+      'node_modules',
+      '.vscode',
+      'package-lock.json',
+      'dist',
+      'dist-electron',
+      'release',
+      '.eslintcache',
+      'packages',
+    ],
   },
   js.configs.recommended,
   prettierPlugin,

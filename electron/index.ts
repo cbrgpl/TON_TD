@@ -10,8 +10,6 @@ const createWindow = () => {
     }
   })
 
-  console.log('fsdgsd')
-
   win.loadFile('./../index.html')
 }
 

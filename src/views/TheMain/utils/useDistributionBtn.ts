@@ -1,7 +1,8 @@
-import { watch, ref } from 'vue';
+import { watch, ref, inject, type ShallowRef, type Ref } from 'vue';
 import { useLogStore } from '@components/singletones/ZFeedBackPanel';
 import { useToastStore } from '@components/singletones/ZToasts';
 
+import type { createDistributor } from '@/core/ton';
 import { generateId } from '@libs/generate/index';
 
 import type { IDistributionBtnExposes, IDistributionBtnProps, UDistributionMethods, IChunkContainer } from '../types';
@@ -29,6 +30,10 @@ export class ChunkContainersBuffer<T extends IChunkContainer = IChunkContainer> 
     for (let i = 0; i < this._onAddHandlers.length; ++i) {
       this._onRemoveHandlers[i](i);
     }
+  }
+
+  clear() {
+    this.buffer.splice(0);
   }
 
   onAdd(handler: (container: T, index: number) => Promise<void>) {
@@ -60,6 +65,8 @@ export const useDistributionBtn = <T extends IChunkContainer = IChunkContainer>(
 
   const logStore = useLogStore();
   const toastStore = useToastStore();
+
+  const distributor = inject('distributor') as ShallowRef<Awaited<ReturnType<typeof createDistributor>>>;
 
   const distributionStatus = ref<null | 'shouldStop' | 'stopped'>();
 
@@ -96,7 +103,6 @@ export const useDistributionBtn = <T extends IChunkContainer = IChunkContainer>(
   };
 
   const distribute = async (chunkContainer: T, i: number) => {
-    // logWhileDebugging(['Очередной чанк был добавле в буффер'], chunkContainer);
     const timeBeforeWaiting = Date.now();
     await chunkContainer.loadedPromise;
     const timeAfterWaiting = Date.now();
@@ -112,18 +118,18 @@ export const useDistributionBtn = <T extends IChunkContainer = IChunkContainer>(
     if (chunkContainer.chunk) {
       onChunkLoaded(chunkContainer);
 
-      // logWhileDebugging(['Отдаю на рассылку'], chunkContainer);
-      await new Promise((resolve) => {
-        setTimeout(
-          () => {
-            resolve(null);
-          },
-          2000 + 4000 * Math.random(),
-        );
-      });
-      // Отдаем на рассылку
-      // await distributor.distribute( chunk )
-      // logWhileDebugging(['РАССЫЛКУ ОКОНЧИЛ'], chunkContainer);
+      // logWhileDebugging(['Отдаю в очередь рассылку'], chunkContainer);
+
+      const distributionResult = await distributor.value.distribute(chunkContainer.chunk);
+      if (distributionResult === false) {
+        distributionStatus.value = 'shouldStop';
+      } else if (distributionResult === 500) {
+        onDistributionStopped?.();
+        $emit('update:distributionMethod', null);
+        distributionStatus.value = null;
+        chunkContainersBuffer.clear();
+        return;
+      }
 
       loadNextChunk(chunkContainer);
       chunkContainersBuffer.remove(i);

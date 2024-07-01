@@ -66,7 +66,7 @@ async function createWindow() {
     ( error: string ) => {
       setTimeout(() => {
         win.webContents.send(EThreadEvents.MAIN_PROCESS_ERROR, error)
-      }, 1000);
+      }, 4000);
     }
   )
 
@@ -76,13 +76,11 @@ async function createWindow() {
   })
 
   ipcMain.on(EThreadEvents.READ_CHUNK, async (event) => {
-    console.log('EThreadEvents.READ_CHUNK')
     const chunk = await chunkStore.readChunk()
 
     if(chunk === null) {
       event.reply( EThreadEvents.CHUNK_READ, null)
     } else {
-      console.log('readed chunk', chunk[0])
       event.reply( EThreadEvents.CHUNK_READ, chunk)
     }
 

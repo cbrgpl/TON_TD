@@ -25,7 +25,7 @@ type IWalletsScannerParams = {
 type IWalletsScannerParamsIn = Omit<IWalletsScannerParams, 'transactionsLimitPerRequest'>;
 
 const DEFAULT_PARAMS: IWalletsScannerParams = {
-  transactionsLimitPerRequest: 250,
+  transactionsLimitPerRequest: 256,
 };
 
 export class WalletsScanner extends LogStoreAccessor {
@@ -55,7 +55,7 @@ export class WalletsScanner extends LogStoreAccessor {
     if (response.status !== 200) {
       this._logStore.log({
         type: 'error',
-        content: `При попытке получения списка транзакций был получен неожиданный статус "${response.status}"`,
+        content: `При попытке получения списка транзакций был получен неожиданный статус "${response.status}\nЭто означает, что произошло слишком много запросов к toncenter.com"`,
       });
 
       return createOrc({

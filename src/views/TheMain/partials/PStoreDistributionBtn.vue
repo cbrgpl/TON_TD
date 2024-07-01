@@ -57,7 +57,6 @@ function loadStoreChunksUsingComposable(): void | Promise<void> {
     return;
   }
 
-  // console.log('Загружаю чанк из стора');
   return loadChunksInBuffer(() => {
     return loadChunkFromStore();
   });

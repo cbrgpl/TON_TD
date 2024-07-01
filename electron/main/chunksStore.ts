@@ -87,7 +87,6 @@ export class ChunksStore {
       }
 
       const files = await fs.readdir(CHUNKS_DIR_PATH);
-      console.log(files.length, this._processedFilesQnt)
       if(files.length === this._processedFilesQnt) {
         this._processedFilesQnt = 0
         this._saveState()
@@ -97,7 +96,6 @@ export class ChunksStore {
         this._saveState()
       }
 
-      console.log(`reading chunks started with inx ${this._processedFilesQnt+1}`)
       const chunkData = await fs.readFile(`${CHUNKS_DIR_PATH}/${files[this._processedFilesQnt++]}`, 'utf8');
       this._saveState()
 

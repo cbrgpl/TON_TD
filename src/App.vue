@@ -20,7 +20,6 @@ import type { IpcRendererEvent } from 'electron';
 const logStore = useLogStore();
 
 window.ipcRenderer.on(EThreadEvents.MAIN_PROCESS_ERROR, (event: IpcRendererEvent, error: string) => {
-  console.log(error);
   logStore.log({
     type: 'error',
     content: `Произошла внутреняя ошибка в работе программы:

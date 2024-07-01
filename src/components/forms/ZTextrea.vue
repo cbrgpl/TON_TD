@@ -21,6 +21,10 @@ const $props = withDefaults(
     placeholder: '',
   },
 );
+
+const $emit = defineEmits<{
+  'update:modelValue': [v: string];
+}>();
 </script>
 
 <template>
@@ -29,6 +33,8 @@ const $props = withDefaults(
       <textarea
         class="textarea__textarea"
         :style="styles"
+        :value="$props.modelValue"
+        @input="$emit('update:modelValue', ($event.target as any).value)"
         rows="8"
         :placeholder="$props.placeholder"
       />
